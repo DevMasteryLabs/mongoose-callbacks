@@ -53,9 +53,24 @@ function deleteEmployee(employeeId, done) {
   })
 }
 
+function updateEmployee(employeeId, newInformations, done) {
+  // Employee.updateOne({_id: employeeId}, { $set: newInformations }, (err, data) => {})
+  Employee.findByIdAndUpdate(employeeId, { $set: newInformations }, { new: true }, (error, data) => {
+    if (error) {
+      return done(error, null)
+    } 
+    if (!data) {
+      const notFoundError = { error: 'Employee not found' }
+      return done(notFoundError, null)
+    }
+    return done(null, data)
+  })
+}
+
 module.exports = {
   findAllEmployees,
   findEmployeeById,
   createAndSaveEmployee,
-  deleteEmployee
+  deleteEmployee,
+  updateEmployee
 }

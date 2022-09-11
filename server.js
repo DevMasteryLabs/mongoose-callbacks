@@ -3,7 +3,13 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 
 const Employee = require('./models/Employee')
-const { findEmployeeById, findAllEmployees, createAndSaveEmployee, deleteEmployee } = require('./controllers/employees')
+const { 
+  findEmployeeById, 
+  findAllEmployees, 
+  createAndSaveEmployee, 
+  deleteEmployee,
+  updateEmployee 
+} = require('./controllers/employees')
 
 dotenv.config()
 
@@ -48,6 +54,15 @@ app.post('/employees', (req, res) => {
 
 app.delete('/employees/:id', (req, res) => {
   deleteEmployee(req.params.id, (err, data) => {
+    if (err) {
+      return res.json(err)
+    }
+    return res.json(data)
+  })
+})
+
+app.put('/employees/:id', (req, res) => {
+  updateEmployee(req.params.id, req.body, (err, data) => {
     if (err) {
       return res.json(err)
     }
