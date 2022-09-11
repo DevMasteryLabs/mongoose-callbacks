@@ -11,6 +11,8 @@ const {
   updateEmployee 
 } = require('./controllers/employees')
 
+const { findAllDepartments } = require('./controllers/departments')
+
 dotenv.config()
 
 // CRUD: Create Read Update Delete
@@ -67,6 +69,16 @@ app.put('/employees/:id', (req, res) => {
       return res.json(err)
     }
     return res.json(data)
+  })
+})
+
+app.get('/departments', (req, res) => {
+  findAllDepartments((err, data) => {
+    if (err) {
+      return req.json(err)
+    } else {
+      return res.json(data)
+    }
   })
 })
 
