@@ -3,9 +3,11 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 
 const Employee = require('./models/Employee')
-const { findEmployeeById, findAllEmployees, createAndSaveEmployee } = require('./controllers/employees')
+const { findEmployeeById, findAllEmployees, createAndSaveEmployee, deleteEmployee } = require('./controllers/employees')
 
 dotenv.config()
+
+// CRUD: Create Read Update Delete
 
 const app = express()
 app.use(express.json())
@@ -37,6 +39,15 @@ app.post('/employees', (req, res) => {
   const employeeInformations = req.body
   console.log(employeeInformations)
   createAndSaveEmployee(employeeInformations, (err, data) => {
+    if (err) {
+      return res.json(err)
+    }
+    return res.json(data)
+  })
+})
+
+app.delete('/employees/:id', (req, res) => {
+  deleteEmployee(req.params.id, (err, data) => {
     if (err) {
       return res.json(err)
     }

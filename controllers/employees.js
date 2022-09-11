@@ -40,8 +40,22 @@ const createAndSaveEmployee = (informations, done) => {
   })
 }
 
+function deleteEmployee(employeeId, done) {
+  Employee.findByIdAndDelete(employeeId, (error, data) => {
+    if (error) {
+      return done(error, null)
+    } 
+    if (!data) {
+      const notFoundError = { error: 'Employee not found' }
+      return done(notFoundError, null)
+    }
+    return done(null, {message: 'Employee deleted successfully'})
+  })
+}
+
 module.exports = {
   findAllEmployees,
   findEmployeeById,
-  createAndSaveEmployee
+  createAndSaveEmployee,
+  deleteEmployee
 }
