@@ -3,11 +3,12 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 
 const Employee = require('./models/Employee')
-const { findEmployeeById, findAllEmployees } = require('./controllers/employees')
+const { findEmployeeById, findAllEmployees, createAndSaveEmployee } = require('./controllers/employees')
 
 dotenv.config()
 
 const app = express()
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.json({message: 'Welcome to our API !'})
@@ -27,6 +28,17 @@ app.get('/employees/:id', (req, res) => {
   findEmployeeById(employeeId, (error, data) => {
     if (error) {
       return res.json(error)
+    }
+    return res.json(data)
+  })
+})
+
+app.post('/employees', (req, res) => {
+  const employeeInformations = req.body
+  console.log(employeeInformations)
+  createAndSaveEmployee(employeeInformations, (err, data) => {
+    if (err) {
+      return res.json(err)
     }
     return res.json(data)
   })

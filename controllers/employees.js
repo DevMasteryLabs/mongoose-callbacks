@@ -24,7 +24,24 @@ const findEmployeeById = (employeeIdentifier, done) => {
   })
 }
 
+const createAndSaveEmployee = (informations, done) => {
+  const employee = new Employee({
+    firstName: informations.firstName, 
+    lastName: informations.lastName,
+    email: informations.email,
+    birthYear: informations.birthYear,
+    firstJob: informations.firstJobfirstJobfirstJobfirstJobfirstJob
+  })
+  employee.save((error, data) => {
+    if (error) {
+      return done(error, null)
+    }
+    return done(null, data)
+  })
+}
+
 module.exports = {
   findAllEmployees,
-  findEmployeeById
+  findEmployeeById,
+  createAndSaveEmployee
 }
