@@ -3,17 +3,33 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 
 const Employee = require('./models/Employee')
+const { findEmployeeById, findAllEmployees } = require('./controllers/employees')
 
 dotenv.config()
 
 const app = express()
 
 app.get('/', (req, res) => {
-  res.json({message: 'Welcome to the API !'})
+  res.json({message: 'Welcome to our API !'})
 })
 
-app.get('/all-employees', (req, res) => {
-  Employee.find({}, (error, data) => { res.json(data) }) // Employee => db.employees
+app.get('/employees', (req, res) => {
+  findAllEmployees((error, data) => {
+    if (error) {
+      return res.status(500).json(error)
+    }
+    return res.json(data)
+  })
+})
+
+app.get('/employees/:id', (req, res) => {
+  const employeeId = req.params.id // { id: '631c7bd09c89e79615d7e482' }
+  findEmployeeById(employeeId, (error, data) => {
+    if (error) {
+      return res.json(error)
+    }
+    return res.json(data)
+  })
 })
 
 const port = process.env.PORT
