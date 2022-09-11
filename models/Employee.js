@@ -8,7 +8,11 @@ const EmployeeSchema = new mongoose.Schema({
   lastName: String,
   email: String,
   birthYear: Number,
-  firstJob: Boolean
+  firstJob: Boolean,
+  department: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Department'
+  }
 })
 
 const EmployeeModel = mongoose.model("Employee", EmployeeSchema) // employees

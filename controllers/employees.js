@@ -1,7 +1,7 @@
 const Employee = require('../models/Employee')
 
 const findAllEmployees = (done) => {
-  Employee.find({}, (err, data) => {
+  Employee.find({}).populate('department').exec((err, data) => {
     if (err) {
       return done(err, null)
     }
@@ -10,7 +10,7 @@ const findAllEmployees = (done) => {
 }
 
 const findEmployeeById = (employeeIdentifier, done) => {
-  Employee.findOne({ _id: employeeIdentifier }, (err, data) => {
+  Employee.findOne({ _id: employeeIdentifier }).populate('department').exec((err, data) => {
     if (err) {
       return done(err, null)
     }
@@ -30,7 +30,8 @@ const createAndSaveEmployee = (informations, done) => {
     lastName: informations.lastName,
     email: informations.email,
     birthYear: informations.birthYear,
-    firstJob: informations.firstJobfirstJobfirstJobfirstJobfirstJob
+    firstJob: informations.firstJob,
+    department: informations.department
   })
   employee.save((error, data) => {
     if (error) {
@@ -66,6 +67,8 @@ function updateEmployee(employeeId, newInformations, done) {
     return done(null, data)
   })
 }
+
+
 
 module.exports = {
   findAllEmployees,
