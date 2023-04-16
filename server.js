@@ -84,7 +84,8 @@ app.get('/departments', (req, res) => {
 
 const port = process.env.PORT
 
-
+// This doesn't work with mongoose version 7 or higher
+// The callbacks are no longer supported
 mongoose.connect(process.env.DB_CONNECTION, (error) => {
   if (error) {
     console.log(error.message)
